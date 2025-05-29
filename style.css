@@ -1,0 +1,39 @@
+/* CSS is how you can add style to your website, such as colors, fonts, and positioning of your
+   HTML content. To learn how to do something, just try searching Google for questions like
+   "how to change link color." */
+:root{
+  --color1:blue;
+  --color5:black;
+  --color6:white;
+}
+
+
+        @media (prefers-color-scheme: light) {
+body {
+  background-color:var(--color6);
+  color: var(--color5);
+  font-family: Verdana;
+}
+          a:link { color: var(--color1); } /* visited link */  
+        }
+        @media (prefers-color-scheme: dark) {
+          a:link { color: var(--color6); } /* visited link */ 
+          a:visited { color: pink;}
+body {
+  background-color:var(--color5);
+  color: var(--color6);
+  font-family: Verdana;
+
+}}
+.usr_usrControl{
+ 
+   font-family: Verdana;
+}
+#usr_usrControl_uadd_ur{
+  accent-color:red;
+
+}
+#usr_usrControl_uadd_ua{
+  accent-color:orange;
+}
+

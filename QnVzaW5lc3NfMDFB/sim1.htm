@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Business simulator</title>
 <script src="/QnVzaW5lc3NfMDFB/sim1.js"></script>
+<script src="/QnVzaW5lc3NfMDFB/sim1_stylistic.js"></script>
 <link href='/QnVzaW5lc3NfMDFB/sim1.css' rel='stylesheet' type=text/css media="all">
     <link href="/style.css" rel="stylesheet" type="text/css" media="all">
   </head>
   <body>
     <noscript><b>Please allow JavaScript to continue</b></noscript>
 <header>  <progress max=100 value='.1' id='gam_com_bar_1' role="progressbar" aria-label="Game progress Bar"></progress>   </header> <div style="visibility:visible" id='gam_set_bus_group'> 
+<button class="gam_usr_setup" id='gam_start_turn'  onclick='TimeController()' aria-label="Start Game">Start Game</button><label class="gam_usr_setup"  for='gam_set_bus_sub'>Submit</label>
+
+
      <h3 class="gam_usr_setup" aria-label="Header-Create your Own Business">Create your Business:</h3>
 <label class="gam_usr_setup" for='gam_set_bus_name'>Business Name:</label><input class="gam_usr_setup" id='gam_set_bus_name' type='text' placeholder='example business name' aria-label="Business name"><br>
 <h4 class="gam_usr_setup" >Game difficulty</h4>
@@ -28,9 +32,10 @@
          let dV = null;
     for (let i = 0; i < radioButtons.length; i++) {
         if (radioButtons[i].checked) {dV = radioButtons[i].value;break;}}
-  let bN= document.getElementById('gam_com_bar_1').value;
-    if(dV===null||bN===''||bN===null){alert('You must select a dfficulty!');}else{
+  let bN= document.getElementById('gam_set_bus_name').value;
+    if(dV===null||dV===''||dV===null){alert('You must select a dfficulty!');}else{
      //200000=difference between each level. 100000 is the offset.
+      A=new GameOverview((200000*dV-100000));
       A.createBusiness(bN, (200000*dV-100000), new EmployeeManager(0,0,0,0,0,0,0,0,0,[new owner(1)],0,0,[17,17,17,17,17,17,17,17,17,parseInt(document.getElementById('gam_set_bus_Opay').value),parseInt(17),17],dV), 1, "", "", 123,dV)
     }}catch(e){
     return  console.error(e);
@@ -42,10 +47,177 @@
   for (let element of document.getElementsByClassName("gam_play")){
    element.style.visibility="visible";
 }
+for (let element of document.getElementsByClassName("gam_play_tab")){
+   element.style.visibility="visible";
+}
+TitleBusChange('gam_play_gam_title','Hello');
+
     }//.remove//}
-    
+    window.onload=function(){
+        for (let element of document.getElementsByClassName("gam_play")){
+   element.style.visibility="hidden";
+}
+for (let element of document.getElementsByClassName("gam_play_tab")){
+   element.style.visibility="hidden";
+}
+    }
    </script>
-   <!--********************************************************************************************************************************************************-->
-   <h3 class='gam_play' id='title' style='visibility:hidden'>Hello</h3>
+<!--*******************************************************************************************************************************************************-->
+   <h3 class='gam_play' id='gam_play_gam_title' style='visibility:hidden'>Hello</h3>
+   <table class='gam_play_tab' id='gam_play_anti_owner_table' style='visibility:hidden'>
+     <tr>
+       <th>Employee</th>
+        <th>Pay(per employee, per turn)</th>
+           <th>Amount</th>
+           <th>Productivity</th>
+         <th>Total Pay</th>
+          <th>Morale</th>
+           <th>Department</th>
+     </tr>
+     <tr>
+       <td>Employee</td>
+       <td id='gam_play_empPay_tab_pay'>-</td>
+        <td id='gam_play_empPay_tab_quantity'>-</td>
+       <td id='gam_play_empPay_tab_productivity'>-</td>
+       <td id='gam_play_empPay_tab_Tpay'>-</td>
+       <td id='gam_play_empPay_tab__morale'>-</td>
+       <td id='gam_play_empPay_tab_depts'>-</td>
+       </tr>
+          <!-- tr>
+       <td>Manager</td>
+             <td id='gam_Etab_man_pay'>-</td>
+        <td id='gam_Etab_man_quantity'>-</td>
+       <td id='gam_Etab_man_productivity'>-</td>
+       <td id='gam_Etab_man_Tpay'>-</td>
+       <td id='gam_Etab_man_morale'>-</td>
+       <td id='gam_Etab_man_depts'>-</td>
+       </tr>
+          <tr>
+       <td>Senior Manager</td>
+               <td id='gam_Etab_sman_pay'></td>
+        <td id='gam_Etab_sman_quantity'></td>
+       <td id='gam_Etab_sman_productivity'></td>
+       <td id='gam_Etab_sman_Tpay'></td>
+       <td id='gam_Etab_sman_morale'></td>
+       <td id='gam_Etab_sman_depts'></td>
+       </tr>
+          <tr>
+       <td>Vice director</td>
+              <td id='gam_Etab_vdr_pay'>-</td>
+        <td id='gam_Etab_vdr_quantity'>-</td>
+       <td id='gam_Etab_vdr_productivity'>-</td>
+       <td id='gam_Etab_vdr_Tpay'>-</td>
+       <td id='gam_Etab_vdr_morale'>-</td>
+       <td id='gam_Etab_vdr_depts'>-</td>
+       </tr>
+          <tr>
+       <td>Director</td>
+              <td id='gam_Etab_dr_pay'>-</td>
+        <td id='gam_Etab_dr_quantity'>-</td>
+       <td id='gam_Etab_dr_productivity'>-</td>
+       <td id='gam_Etab_dr_Tpay'>-</td>
+       <td id='gam_Etab_dr_morale'>-</td>
+       <td id='gam_Etab_dr_depts'>-</td>
+       </tr>
+          <tr>
+       <td>Vice president</td>
+          <td id='gam_Etab_vp_pay'>-</td>
+        <td id='gam_Etab_vp_quantity'>-</td>
+       <td id='gam_Etab_vp_productivity'>-</td>
+       <td id='gam_Etab_vp_Tpay'>-</td>
+       <td id='gam_Etab_vp_morale'>-</td>
+       <td id='gam_Etab_vp_depts'>-</td>
+       </tr>
+          <tr>
+       <td>President</td>
+           <td id='gam_Etab_pres_pay'>-</td>
+        <td id='gam_Etab_pres_quantity'>-</td>
+       <td id='gam_Etab_pres_productivity'>-</td>
+       <td id='gam_Etab_pres_Tpay'>-</td>
+       <td id='gam_Etab_pres_morale'>-</td>
+       <td id='gam_Etab_pres_depts'>-</td>
+       </tr>
+          <tr>
+       <td>Minor executive</td>
+                  <td id='gam_Etab_minex_pay'>-</td>
+        <td id='gam_Etab_minex_quantity'>-</td>
+       <td id='gam_Etab_minex_productivity'>-</td>
+       <td id='gam_Etab_minex_Tpay'>-</td>
+       <td id='gam_Etab_minex_morale'>-</td>
+       <td id='gam_Etab_minex_depts'>-</td>
+       </tr>
+          <tr>
+       <td> Major executive</td>
+                 <td id='gam_Etab_majex_pay'>-</td>
+        <td id='gam_Etab_majex_quantity'>-</td>
+       <td id='gam_Etab_majex_productivity'>-</td>
+       <td id='gam_Etab_majex_Tpay'>-</td>
+       <td id='gam_Etab_majex_morale'></td>
+       <td id='gam_Etab_majex_depts'></td>
+       </tr>
+          <tr>
+       <td>Board members</td>
+                 <td id='gam_Etab_bm_pay'>-</td>
+        <td id='gam_Etab_bm_quantity'>-</td>
+       <td id='gam_Etab_bm_productivity'>-</td>
+       <td id='gam_Etab_bm_Tpay'>-</td>
+       <td id='gam_Etab_bm_morale'>-</td>
+       <td id='gam_Etab_bm_depts'>-</td>
+       </tr>
+          <tr>
+       <td>Chairmen</td>
+                 <td id='gam_Etab_chair_pay'>-</td>
+        <td id='gam_Etab_chair_quantity'>-</td>
+       <td id='gam_Etab_chair_productivity'>-</td>
+       <td id='gam_Etab_chair_Tpay'>-</td>
+       <td id='gam_Etab_chair_morale'>-</td>
+       <td id='gam_Etab_chair_depts'>-</td>
+       </tr-->
+   </table>
+   <hr class='gam_play'>
+   <div class='gam_play' ><select name="employee_select" class='gam_play' id='gam_play_empPay_selmenu'>
+     <option class='gam_play' value=0>Employee</option>
+      <option class='gam_play' value=1>Manager</option>
+       <option class='gam_play' value=2>Senior Manager</option>
+        <option class='gam_play' value=3>Vice Director</option> 
+        <option class='gam_play' value=4>Director</option>
+             <option class='gam_play' value=5>Vice President</option>
+      <option class='gam_play' value=6>President</option>
+       <option class='gam_play' value=7>Minor executive</option>
+        <option class='gam_play' value=8>Major executive</option> 
+        <option class='gam_play' value=9>Owner</option>
+         <option class='gam_play' value=10>Board Members</option>
+          <option class='gam_play' value=11>Chairman</option>
+   </select></div>
+   <button class='gam_play' onclick='b()'>update</button>
+   <script defer type='text/javascript'>
+     function b(){
+      let salt=document.getElementById('gam_play_empPay_selmenu').value;
+     let XXX = [
+         A.business.employees.employeePay,
+         A.business.employees.managerPay,
+         A.business.employees.srManagerPay,
+         A.business.employees.viceDirectorPay,
+         A.business.employees.directorPay,
+         A.business.employees.vicePresidentPay,
+         A.business.employees.presidentPay,
+         A.business.employees.minorExecutivePay,
+         A.business.employees.majorExecutivePay,
+         A.business.employees.ownerPay,
+         A.business.employees.boardMembersPay,
+         A.business.employees.chairmenPay,
+    ];
+          let VVV = [
+    A.business.employees.employees,A.business.employees.managers,A.business.employees.srManagers,A.business.employees.viceDirectors,A.business.employees.directors,A.business.employees.vicePresidents, A.business.employees.presidents,A.business.employees.minExecutive,A.business.employees.majExecutive, A.business.employees.owner.length,A.business.employees.boardMembers,A.business.employees.chairmen
+    ];
+    let qW=(XXX[salt]/VVV[salt]).toFixed(2);
+   if(isNaN(qW)){qW=0;}
+    document.getElementsByClassName('gam_play_tab')[0].children[0].children[1].children[1].innerHTML= qW;
+    document.getElementsByClassName('gam_play_tab' )[0].children[0].children[1].children[2].innerHTML= VVV[salt];
+    document.getElementsByClassName('gam_play_tab' )[0].children[0].children[1].children[4].innerHTML= XXX[salt]
+    document.getElementsByClassName('gam_play_tab' )[0].children[0].children[1].children[5].innerHTML= A.business.employees.EmployeeMoralCalcSP(salt)
+    return 1;
+     }
+   </script>
   </body>
 </html>

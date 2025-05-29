@@ -16,3 +16,10 @@ progress::-webkit-progress-value {
     background-color: limegreen;
     border-radius: 4px;
 }
+table,td,tr,th{
+  border-collapse: collapse !important;
+  padding-left:5px !important;
+   padding-right:5px !important;
+    border: solid 2px white !important;
+    border-style:solid!important;
+}
